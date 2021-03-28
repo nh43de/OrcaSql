@@ -25,19 +25,30 @@ namespace OrcaSql.Core.Engine.Records.Parsers
 
         internal override IEnumerable<Row> GetEntities(DataExtractorHelper schema)
         {
+            var cols = schema.Columns.ToArray();
+
+            var isMdTable = cols.First().Name == "RecordDateTimeUtc";
+
+            //if (isMdTable)
+            //{
+            //    cols = new[] { cols.Last() }.Union(cols.Take(cols.Length - 1)).ToArray();
+            //}
+
+
             foreach (var record in page.Records)
             {
                 // Don't process forwarded blob fragments as they should only be processed from the referenced record
                 if (_recordsToSkip.Contains(record.Type) || record.IsGhostForwardedRecord)
                     continue;
 
-                short fixedOffset = 0;
+                short fixedOffset = 0;//isMdTable ? (short)4 : (short)0;
+
                 short variableColumnIndex = 0;
                 var dataRow = schema.NewRow();
                 var readState = new RecordReadState(schema.BitColumnsCount);
                 var bitColumnBytes = new byte[0];
-
-                foreach (var col in schema.Columns)
+                
+                foreach (var col in cols)
                 {
                     var sqlType = SqlTypeFactory.Create(col, readState, compression);
                     object columnValue = null;
@@ -91,6 +102,14 @@ namespace OrcaSql.Core.Engine.Records.Parsers
                                     // We may run out of fixed length bytes. In certain conditions a null integer may have been added without
                                     // there being a null bitmap. In such a case, we detect the null condition by there not being enough fixed
                                     // length bytes to process.
+
+                                    //if (false)
+                                    //{
+                                    //    var intType = SqlTypeFactory.Create(schema.Columns[8], readState, compression);
+
+                                    //    var intVal = intType.GetValue(valueBytes.Take(4).ToArray());
+                                    //}
+
                                     if (valueBytes.Length > 0)
                                     {
                                         columnValue = sqlType.GetValue(valueBytes);

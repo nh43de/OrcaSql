@@ -22,7 +22,14 @@ namespace OrcaSql.Core.Engine.SqlTypes
             // Reading backwards due to assumed little endianness.
             var date = value[0] + (value[1] << 8) + (value[2] << 16);
 
-            return DateTime.MinValue.AddDays(date);
+            try
+            {
+                return DateTime.MinValue.AddDays(date);
+            }
+            catch (Exception e)
+            {
+                return (DateTime) DateTime.MinValue;
+            }
         }
 
         public override object GetDefaultValue(SysDefaultConstraint columnConstraint)

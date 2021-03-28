@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.489
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrcaSql.Core", "src\OrcaSql.Core\OrcaSql.Core.csproj", "{829A5C51-CB21-4DE2-9021-44F6D804D231}"
 EndProject
@@ -25,6 +25,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrcaSql.SQLConnectionDialog", "src\OrcaSql.SQLConnectionDialog\OrcaSql.SQLConnectionDialog.csproj", "{7396033C-0D1D-4687-99C8-FFE944374754}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrcaSql.Scripting", "src\OrcaSql.Scripting\OrcaSql.Scripting.csproj", "{78891BBF-1E07-4ED6-95BB-B6CE03CB77A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MdfToCsv", "MdfToCsv\MdfToCsv.csproj", "{3D08E5B9-404E-479D-9C60-8B446FB8BABE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -170,6 +172,22 @@ Global
 		{78891BBF-1E07-4ED6-95BB-B6CE03CB77A1}.Release|x64.Build.0 = Release|Any CPU
 		{78891BBF-1E07-4ED6-95BB-B6CE03CB77A1}.Release|x86.ActiveCfg = Release|Any CPU
 		{78891BBF-1E07-4ED6-95BB-B6CE03CB77A1}.Release|x86.Build.0 = Release|Any CPU
+		{3D08E5B9-404E-479D-9C60-8B446FB8BABE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D08E5B9-404E-479D-9C60-8B446FB8BABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D08E5B9-404E-479D-9C60-8B446FB8BABE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3D08E5B9-404E-479D-9C60-8B446FB8BABE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3D08E5B9-404E-479D-9C60-8B446FB8BABE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3D08E5B9-404E-479D-9C60-8B446FB8BABE}.Debug|x64.Build.0 = Debug|Any CPU
+		{3D08E5B9-404E-479D-9C60-8B446FB8BABE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3D08E5B9-404E-479D-9C60-8B446FB8BABE}.Debug|x86.Build.0 = Debug|Any CPU
+		{3D08E5B9-404E-479D-9C60-8B446FB8BABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D08E5B9-404E-479D-9C60-8B446FB8BABE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D08E5B9-404E-479D-9C60-8B446FB8BABE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3D08E5B9-404E-479D-9C60-8B446FB8BABE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3D08E5B9-404E-479D-9C60-8B446FB8BABE}.Release|x64.ActiveCfg = Release|Any CPU
+		{3D08E5B9-404E-479D-9C60-8B446FB8BABE}.Release|x64.Build.0 = Release|Any CPU
+		{3D08E5B9-404E-479D-9C60-8B446FB8BABE}.Release|x86.ActiveCfg = Release|Any CPU
+		{3D08E5B9-404E-479D-9C60-8B446FB8BABE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

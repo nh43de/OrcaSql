@@ -135,7 +135,7 @@ namespace OrcaSql.Core.Engine
 
         private byte[] GetPageBytes(PagePointer pagePointer, bool putResultsToCache = true)
         {
-            return _bufferManager.GetPageBytes(pagePointer.FileID, pagePointer.PageID, putResultsToCache);
+            return _bufferManager.GetPageBytes(pagePointer.FileID, pagePointer.PageID, false);
         }
 
         [DebuggerStepThrough]

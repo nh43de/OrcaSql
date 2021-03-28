@@ -30,9 +30,17 @@ namespace OrcaSql.Core.Engine.SqlTypes
                 throw new ArgumentException("Invalid value length: " + value.Length);
 
             var timeValue = (TimeSpan)time.GetValue(value.Take(length - 3).ToArray());
-            var dateValue = (DateTime)date.GetValue(value.Skip(length - 3).ToArray());
+            var r = (DateTime?)date.GetValue(value.Skip(length - 3).ToArray());
 
-            return new DateTime(dateValue.Subtract(DateTime.MinValue).Ticks + timeValue.Ticks);
+
+             if (r == null)
+                return (DateTime?) null;
+
+            var dateValue = r.Value;
+
+            var rr = new DateTime(dateValue.Subtract(DateTime.MinValue).Ticks + timeValue.Ticks);
+
+            return rr;
         }
 
         public override object GetDefaultValue(SysDefaultConstraint columnConstraint)

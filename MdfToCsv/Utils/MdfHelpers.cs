@@ -29,7 +29,7 @@ namespace DataToolChain
                 
 
                 //var rr = scanner.ScanIndex("MarketData", "PK__MarketDa__3214EC0757C4568C").Take(10).ToArray();
-                var rrr = ss.ScanTable("MarketData").Select(p =>
+                var rrr = ss.ScanTable("MarketData", null, false).Select(p =>
                 {
                     var r = new MarketData()
                     {

@@ -12,22 +12,20 @@ namespace DataToolChain
         public MdfHelpers(string[] files)
         {
             this.files = files;
-
         }
+
+        public int CurrentRow { get; private set; }
+
+            
 
         public void Upload(IProgress<string> progress, string outputFile, string table, string index)
         {
             var d = new Database(files);
-
-            var i = 0;
-
+            
             if (string.IsNullOrWhiteSpace(index))
             {
-
                 var ss = new DataScanner(d);
-
                 
-
                 //var rr = scanner.ScanIndex("MarketData", "PK__MarketDa__3214EC0757C4568C").Take(10).ToArray();
                 var rrr = ss.ScanTable("MarketData").Select(p =>
                 {
@@ -43,17 +41,17 @@ namespace DataToolChain
                         Ticker = p["Ticker"]?.ToString()
                     };
                     
-                    i++;
+                    CurrentRow++;
 
-                    if(i % 4096 == 0)
-                        progress.Report(@$"Output {i} rows");
+                    if(CurrentRow % 4096 == 0)
+                        progress.Report(@$"Output {CurrentRow} rows");
 
                     return r;
                 });
 
                 rrr.WriteCsv(outputFile);
                 
-                progress.Report(@$"Finished: output total of {i} rows");
+                progress.Report(@$"Finished: output total of {CurrentRow} rows");
             }
             else
             {
@@ -63,7 +61,6 @@ namespace DataToolChain
 
                 //var rr = scanner.ScanIndex("MarketData", "PK__MarketDa__3214EC0757C4568C").Take(10).ToArray();
             }
-
         }
         
 

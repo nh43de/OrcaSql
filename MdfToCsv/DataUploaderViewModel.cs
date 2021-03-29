@@ -12,6 +12,27 @@ using DataPowerTools.Connectivity.Json;
 
 namespace DataToolChain
 {
+    internal static class ExceptionExtensions
+    {
+        public static string ConcatenateInners(this Exception ex)
+        {
+            var rtn = ex.Message + " " + string.Join(" ", ex.GetAllInnerExceptions().Select(e => e.Message).ToArray());
+
+            return string.IsNullOrWhiteSpace(rtn) ? "Unknown exception ocurred." : rtn;
+        }
+
+        public static IEnumerable<Exception> GetAllInnerExceptions(this Exception ex)
+        {
+            var iex = ex.InnerException;
+            while (iex != null)
+            {
+                yield return iex;
+                iex = iex.InnerException;
+            }
+        }
+    }
+
+
     public class DataUploaderViewModel : INotifyPropertyChanged
     {
         private ObservableCollection<DataUploaderTask> _dataUploaderTasks = new ObservableCollection<DataUploaderTask>();
@@ -187,43 +208,34 @@ namespace DataToolChain
 
             WindowStatusDisplay = "Starting MDF file parsing.";
             
-
-
-
-
-
-
             CurrentTask = Task.Run(async () =>
             {
+                var progress = new Progress<string>(newStr => this.WindowStatusDisplay = newStr);
+                
                 foreach (var task in DataUploaderTasks)
                 {
                     if (string.IsNullOrWhiteSpace(task.FilePath))
                     {
                         task.StatusMessage = "No file specified";
-                        continue;
-                    }
-                    
-                    try
-                    {
-                        var r = new MdfHelpers(this.DataUploaderTasks.Select(p => p.FilePath).ToArray());
-
-                        var progress = new Progress<string>(newStr => this.WindowStatusDisplay = newStr);
-
-                        r.Upload(progress, OutputFileName, TableName, IndexName);
-                    }
-                    catch (Exception e)
-                    {
-                        task.StatusMessage = "Error during upload: " + e.Message;
-                        continue;
+                        return;
                     }
                 }
-            }, cancellationToken);
 
-            CurrentTask?.GetAwaiter().OnCompleted(() =>
-            {
-                CurrentTask = null;
+                var r = new MdfHelpers(this.DataUploaderTasks.Select(p => p.FilePath).ToArray());
+
+                try
+                {
+                    r.Upload(progress, OutputFileName, TableName, IndexName);
+
+                    CurrentTask = null;
+                }
+                catch (Exception e)
+                {
+                    ((IProgress<string>) progress).Report($"Error during upload ({r.CurrentRow}): " + e.ConcatenateInners() + $" ({_statusDisplay})");
+                }
+                
                 WindowStatusDisplay = "Finished.";
-            });
+            }, cancellationToken);
         }
         
         private string GetDestinationTable(DataUploaderTask task)
